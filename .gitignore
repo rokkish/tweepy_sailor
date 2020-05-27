@@ -1,0 +1,13 @@
+#setting
+.vscode/
+
+#data
+data/*
+
+#src
+__pycache__/
+config.py
+
+#output
+*.csv
+*.log
