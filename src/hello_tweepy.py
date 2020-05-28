@@ -26,7 +26,7 @@ def init_list(filename):
     else:
         return https_list
 
-def get_https_list(api, q, min_rt, max_count_page, filename):
+def get_https_list(api, q, min_rt, max_rt, max_count_page, filename):
 
     def have_media(tweet):
         if "media" in tweet.entities:
@@ -48,7 +48,7 @@ def get_https_list(api, q, min_rt, max_count_page, filename):
 
         if have_media(tweet):
 
-            if tweet.retweet_count > min_rt:
+            if tweet.retweet_count >= min_rt and tweet.retweet_count <= max_rt:
 #                logger.debug("[Entity]:{}".format(tweet.entities))
 #                logger.debug("[User]  :{}".format(tweet.user.name))
                 logger.debug("[RT]    :{}".format(tweet.retweet_count))
@@ -69,13 +69,7 @@ def get_https_list(api, q, min_rt, max_count_page, filename):
 def save_csv(data, save_file_name):
 
     df = pd.DataFrame(data)
-    if os.path.isfile(save_file_name):
-        #add
-        df.to_csv(save_file_name, mode="a", header=False)
-    else:
-        #override
-        df.to_csv(save_file_name, mode="w")
-
+    df.to_csv(save_file_name, mode="w")
     logger.debug("save csv:{}".format(df.shape))
 
 def get_img(filename):
@@ -91,7 +85,7 @@ def main():
 
     api = tweepy.API(auth, retry_count=2, retry_delay=10, timeout=60, wait_on_rate_limit_notify=True, wait_on_rate_limit=True)
 
-    https = get_https_list(api, args.q, args.min_rt, args.max_count_page, args.f)
+    https = get_https_list(api, args.q, args.min_rt, args.max_rt, args.max_count_page, args.f)
 
     get_img(args.f)
 
