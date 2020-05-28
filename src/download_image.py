@@ -4,10 +4,11 @@ import pandas as pd
 import urllib.error
 import urllib.request
 
-download_dir = "../data/"
+download_dir = "../data/100rt/"
+download_csv = "../https_list_100rt.csv"
 
 def get_urls():
-    df = pd.read_csv("../https_list.csv", index_col=0)
+    df = pd.read_csv(download_csv, index_col=0)
     return df.values.tolist()
 
 def download_file(url, savename):
