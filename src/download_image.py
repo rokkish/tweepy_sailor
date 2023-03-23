@@ -1,12 +1,17 @@
 import os
 import time
+import argparse
 import pandas as pd
 import urllib.error
 import urllib.request
 
-download_dir = "../data/100rt/"
-download_csv = "../https_list.csv"
-filename = "sailor"
+parser = argparse.ArgumentParser()
+parser.add_argument("-c", "--csv_name", default="../https_list.csv")
+parser.add_argument("-f", "--filename", default="../data/100rt/sailor/")
+args = parser.parse_args()
+
+download_dir: str = args.filename
+download_csv: str = args.csv_name
 
 
 def get_urls():
@@ -33,7 +38,7 @@ def download_images(urls):
         os.makedirs(download_dir)
     for i, url in enumerate(urls):
         print(i, url[0])
-        download_file(url[0], download_dir + f"{filename}_{i:0=4}.png")
+        download_file(url[0], download_dir + f"_{i:0=4}.png")
         time.sleep(1)
 
 
