@@ -19,12 +19,12 @@ def init_list(filename):
     """取得済みのツイート（画像）を無視するために，取得済みのURLを初期値にセット
     """
     https_list = []
-    if os.path.isfile(filename):
-        df = pd.read_csv(filename, index_col=0)
-        ls = df.values.tolist()
-        return list(itertools.chain.from_iterable(ls))
-    else:
+    if not os.path.isfile(filename):
         return https_list
+
+    df = pd.read_csv(filename, index_col=0)
+    ls = df.values.tolist()
+    return list(itertools.chain.from_iterable(ls))
 
 def get_https_list(api, q, min_rt, max_rt, max_count_page, filename):
 
