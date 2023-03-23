@@ -8,13 +8,15 @@ download_dir = "../data/100rt/"
 download_csv = "../https_list.csv"
 filename = "sailor"
 
+
 def get_urls():
     df = pd.read_csv(download_csv, index_col=0)
     return df.values.tolist()
 
+
 def download_file(url, savename):
 
-    #DL済み
+    # DL済み
     if os.path.isfile(savename):
         print("skip")
         return
@@ -25,6 +27,7 @@ def download_file(url, savename):
     except urllib.error.URLError as e:
         print(e)
 
+
 def download_images(urls):
     if not os.path.exists(download_dir):
         os.makedirs(download_dir)
@@ -33,9 +36,11 @@ def download_images(urls):
         download_file(url[0], download_dir + f"{filename}_{i:0=4}.png")
         time.sleep(1)
 
+
 def main():
     urls = get_urls()
     download_images(urls)
+
 
 if __name__ == "__main__":
     main()

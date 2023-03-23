@@ -7,6 +7,7 @@ import pandas as pd
 from get_args import args
 logger = get_logger.get_logger("hellotweepy")
 
+
 def get_auth():
 
     auth = tweepy.OAuthHandler(config.consumer_key, config.consumer_secret)
@@ -14,6 +15,7 @@ def get_auth():
     auth.set_access_token(config.access_token, config.access_token_secret)
 
     return auth
+
 
 def init_list(filename):
     """取得済みのツイート（画像）を無視するために，取得済みのURLを初期値にセット
@@ -25,6 +27,7 @@ def init_list(filename):
     df = pd.read_csv(filename, index_col=0)
     ls = df.values.tolist()
     return list(itertools.chain.from_iterable(ls))
+
 
 def get_https_list_of_1user_tweet(api, q, min_rt, max_rt, counts_tweets, filename):
 
@@ -67,16 +70,19 @@ def get_https_list_of_1user_tweet(api, q, min_rt, max_rt, counts_tweets, filenam
 
     return https_list
 
+
 def save_csv(data, save_file_name):
 
     df = pd.DataFrame(data)
     df.to_csv(save_file_name, mode="w")
     logger.debug("save csv:{}".format(df.shape))
 
+
 def get_img(filename):
-    
+
     df = pd.read_csv(filename, index_col=0)
     logger.debug("load csv:{}".format(df.shape))
+
 
 def main():
 
@@ -92,7 +98,7 @@ def main():
 
     logger.info("end")
 
+
 if __name__ == "__main__":
 
     main()
-
