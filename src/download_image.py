@@ -25,6 +25,8 @@ def download_file(url, savename):
         print(e)
 
 def download_images(urls):
+    if not os.path.exists(download_dir):
+        os.makedirs(download_dir)
     for i, url in enumerate(urls):
         print(i, url[0])
         download_file(url[0], download_dir + "sailor_{:0=4}.png".format(i))
