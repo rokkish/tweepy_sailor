@@ -26,7 +26,7 @@ def init_list(filename):
     ls = df.values.tolist()
     return list(itertools.chain.from_iterable(ls))
 
-def get_https_list(api, q, min_rt, max_rt, max_count_page, filename):
+def get_https_list_of_1user_tweet(api, q, min_rt, max_rt, counts_tweets, filename):
 
     def have_media(tweet):
         if "media" in tweet.entities:
@@ -44,13 +44,14 @@ def get_https_list(api, q, min_rt, max_rt, max_count_page, filename):
     logger.debug("init_list:{}".format(https_list))
     count_https = 0
 
-    for tweet in tweepy.Cursor(api.search, q=q, count=max_count_page).items():
+    tweets = api.user_timeline(screen_name=q, count=counts_tweets)
+    for tweet in tweets:
 
         if have_media(tweet):
 
             if tweet.retweet_count >= min_rt and tweet.retweet_count <= max_rt:
-#                logger.debug("[Entity]:{}".format(tweet.entities))
-#                logger.debug("[User]  :{}".format(tweet.user.name))
+                logger.debug("[Entity]:{}".format(tweet.entities))
+                logger.debug("[User]  :{}".format(tweet.user.name))
                 logger.debug("[RT]    :{}".format(tweet.retweet_count))
 
                 for media in tweet.entities["media"]:
@@ -83,9 +84,9 @@ def main():
 
     auth = get_auth()
 
-    api = tweepy.API(auth, retry_count=2, retry_delay=10, timeout=60, wait_on_rate_limit_notify=True, wait_on_rate_limit=True)
+    api = tweepy.API(auth)
 
-    https = get_https_list(api, args.q, args.min_rt, args.max_rt, args.max_count_page, args.f)
+    https = get_https_list_of_1user_tweet(api, args.q, args.min_rt, args.max_rt, args.max_count_page, args.f)
 
     get_img(args.f)
 
