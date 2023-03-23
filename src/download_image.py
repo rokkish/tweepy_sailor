@@ -5,7 +5,7 @@ import urllib.error
 import urllib.request
 
 download_dir = "../data/100rt/"
-download_csv = "../https_list_100rt.csv"
+download_csv = "../https_list.csv"
 
 def get_urls():
     df = pd.read_csv(download_csv, index_col=0)
